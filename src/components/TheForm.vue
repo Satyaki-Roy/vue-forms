@@ -2,7 +2,8 @@
   <form @submit.prevent="submitForm">
     <div class="form-control">
       <label for="user-name">Your Name</label>
-      <input id="user-name" name="user-name" type="text" v-model="userName" />
+      <input id="user-name" name="user-name" type="text" v-model.trim="userName" @blur="nameValidation"/>
+      <p v-if="validateName === 'invalid'">Please enter a name.</p>
     </div>
     <div class="form-control">
       <label for="age">Your Age (Years)</label>
@@ -62,10 +63,12 @@ export default {
     return {
       userName: "",
       userAge: null,
-      referrer: 'google',
+      referrer: "google",
       interest: [],
       how: null,
       confirmTerms: false,
+      ////////////////////
+      validateName: "pending",
     }
   },
   methods: {
@@ -76,6 +79,9 @@ export default {
       console.log(this.interest);
       console.log(this.how);
       console.log(this.confirmTerms);
+    },
+    nameValidation() {
+      this.validateName = (this.userName) ? "valid" : "invalid";
     }
   }
 }
